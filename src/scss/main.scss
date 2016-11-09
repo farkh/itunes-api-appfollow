@@ -1,0 +1,175 @@
+@import "../../bower_components/normalize.css/normalize.css";
+
+@import "partials/iphone";
+
+body {
+  font: 16px sans-serif;
+  background: #fcfcfc;
+}
+
+.page-content {
+  padding: 30px 0;
+}
+
+// iPhone screen
+
+.wrapper {
+  width: 96%;
+  margin: 0 auto;
+}
+
+.main-info {
+  width: 100%;
+  overflow: hidden;
+
+  img {
+    width: 32%;
+    float: left;
+    border-radius: 18px;
+  }
+
+  .app-title {
+    float: left;
+    width: 65%;
+    margin-left: 3%;
+    margin-top: 4px;
+  }
+
+  .app-name h2 {
+    font-size: 1.1em;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .app-name {
+    float: left;
+    width: 85%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+  }
+  
+  .age-limit {
+    display: inline-block;
+    float: right;
+    font-size: .6em;
+    margin-top: 3px;
+    padding: 0 2px;
+    color: #a9a9a9;
+
+    border: 1px solid #a9a9a9;
+  }
+
+  .author {
+    clear: left;
+    font-weight: lighter;
+    font-size: .9em;
+    margin: 0;
+  }
+
+  .purchases {
+    font-size: .6em;
+    color: #a9a9a9;
+  }
+
+  .download {
+    margin-top: 2px;
+    border: 1px solid #2f85ff;
+    border-radius: 3px;
+    color: #2f85ff;
+    width: 33.3333%;
+    height: 23px;
+    float: right;
+    text-align: center;
+    line-height: 23px;
+    text-transform: uppercase;
+    font-size: .7em;
+    cursor: pointer;
+  }
+}
+
+.selectors {
+  width: 100%;
+  height: 30px;
+  padding: 0;
+  clear: both;
+  margin-top: 15px;
+
+  display: flex;
+  flex-direction: row;
+
+  .selector {
+    flex: 1;
+    margin: 0;
+
+    display: block;
+    text-align: center;
+    border: 1px solid #a9a9a9;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    font-size: .7em;
+    font-weight: lighter;
+    color: #a9a9a9;
+    cursor: pointer;
+  }
+
+  .selector:nth-child(1) {
+    border-radius: 4px 0 0 4px;
+    border-right: none;
+  }
+  .selector:nth-child(3) {
+    border-radius: 0 4px 4px 0;
+    border-left: none;
+  }
+
+  .active {
+    background: #a9a9a9;
+    color: #fff;
+  }
+}
+
+.line {
+  width: 100%;
+  background: #a9a9a9;
+  height: 1px;
+}
+
+p.section-header {
+  font-size: 1.1em;
+  font-weight: 400;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+#screenshots {
+  margin: 10px 0;
+  overflow-x: scroll;
+  white-space: nowrap;
+
+  .screenshot {
+    height: 250px;
+    width: 140px;
+    display: inline-block;
+    margin-right: 10px;
+
+    img {
+      height: 100%;
+    }
+  }
+}
+
+// D E S C R I P T I O N
+
+.description {
+  overflow: hidden;
+   display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+
+  .description-text {
+    font-size: .75em;
+    color: #a9a9a9;
+  }
+}

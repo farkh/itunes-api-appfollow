@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <!-- Custom scripts main.js + JQuery -->
+  <script src="js/main.js"></script>
+
+  <!-- Semantic UI -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">
+
+  <link rel="stylesheet" href="css/main.css">
+  <title>AppFollow - TEST</title>
+</head>
+<body>
+
+  <div class="page-content">
+    <div class="ui container">
+
+      <div class="ui top attached tabular menu">
+        <a class="item active" data-tab="app-store"><i class="apple icon"></i> App Store</a>
+        <a class="item" data-tab="google-play"><i class="android icon"></i> Google Play</a>
+        <a class="item" data-tab="windows-store"><i class="windows icon"></i> Windows Store</a>
+      </div>
+
+      <div class="ui bottom attached tab segment active" data-tab="app-store">
+
+        <form class="ui form" method="POST">
+          <div class="ui grid">
+            <div class="three column row">
+              <div class="seven wide column field">
+                <input type="text" id="search-text" name="search-app" placeholder="Enter app name or URL...">
+              </div>
+
+              <!-- Countries dropdown -->
+              //= template/country-dropdown.html
+
+              <div class="ui two wide column">
+                <div class="ui primary button search-button" onclick="performSearch();">Search</div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <br>
+        
+        <div class="dark toggler">
+          <div class="iphone-container">
+            <div class="phone-shape small">
+              <span class="button-one buttons"></span>
+              <span class="button-two buttons"></span>
+              <span class="button-three buttons"></span>
+              <span class="button-four button last"></span>
+              <div class="top-details">
+                  <span class="camera"></span>
+                  <span class="circle"></span>
+                  <span class="speaker"></span>
+              </div>
+              <div class="phone-screen">
+                <div class="wrapper">
+                  <div class="header">
+                    
+                    <div class="main-info">
+                      <img id="artwork" alt="Icon">
+                      <div class="app-title">
+                        <div class="app-name">
+                          <h2></h2>
+                        </div>
+                        <div class="age-limit"></div>
+                        <p class="author"></p>
+                        <p class="purchases">Включает встроенные покупки</p>
+                      </div>
+                      
+                      <a class="download free">Загрузить</a>
+                    </div>
+                    
+                    <div class="selectors">
+                      <a class="selector active">Подробнее</a>
+                      <a class="selector">Отзывы</a>
+                      <a class="selector">Похожие</a>
+                    </div>
+                  </div>
+                </div>
+                  
+                <div class="line"></div>
+
+                <div class="wrapper">
+                
+                  <p class="section-header">iPhone</p>
+                  <div id="screenshots"></div>
+                </div>
+                
+                <div class="line"></div>
+
+                <div class="wrapper">
+                  
+                  <p class="section-header">Описание</p>
+                  <div class="description">
+                    <p class="description-text"></p>
+                  </div>
+
+                </div>
+                <!-- End of .wrapper -->
+
+              </div>
+              <!-- End of .page -->
+              <div class="circle-button"></div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="google-play">
+        Coming soon.
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="windows-store">
+        Coming soon.
+      </div>
+
+    </div>
+  </div>
+  <!-- /.page-content -->
+  
+  <!-- Semantic UI - JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
+  <script>
+    $('.tabular.menu .item').tab();
+    $('.ui.dropdown').dropdown();
+  </script>
+</body>
+</html>
