@@ -150,7 +150,6 @@ p.section-header {
 
   .screenshot {
     height: 250px;
-    width: 140px;
     display: inline-block;
     margin-right: 10px;
 
@@ -162,14 +161,27 @@ p.section-header {
 
 // D E S C R I P T I O N
 
-.description {
+.section {
   overflow: hidden;
    display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
+  margin-bottom: 10px;
 
-  .description-text {
+  p.section-text {
     font-size: .75em;
     color: #a9a9a9;
   }
 }
+
+.release-date {
+  font-size: .8em;
+  font-weight: lighter;
+  color: #a9a9a9;
+}
+
+
+
+
+
+

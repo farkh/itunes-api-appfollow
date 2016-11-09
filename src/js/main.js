@@ -50,16 +50,46 @@ function handleTunesSearchResults(arg) {
       artwork: item.artworkUrl512,
       content_advisory_rating: item.contentAdvisoryRating,
       artist_url: item.artistViewUrl,
+      price: item.formattedPrice,
       screenshots: item.screenshotUrls,
       genre: item.primaryGenreName,
-      description: item.description
+      description: item.description,
+      release_date: item.currentVersionReleaseDate,
+      release_notes: item.releaseNotes
     };
 
     results[i] = obj;
   }
 
   render(obj);
-}   
+}
+
+var months = {
+  '01': 'янв.',
+  '02': 'фев.',
+  '03': 'мар.',
+  '04': 'апр.',
+  '05': 'май',
+  '06': 'июн.',
+  '07': 'июл.',
+  '08': 'авг.',
+  '09': 'сен.',
+  '10': 'окт.',
+  '11': 'ноя.',
+  '12': 'дек.'
+};
+
+function convertDate(string) {
+  var string = string;
+  var dateArr = string.split('-');
+  var date = {};
+
+  date['month'] = months[dateArr[1]];
+  date['day'] = dateArr[2].substr(0, 1) == '0' ? dateArr[2].substr(1, 1) : dateArr[2].substr(0, 2);
+  date['year'] = dateArr[0];
+
+  return date;
+}
 
 function render(obj) {
   var html = '';
@@ -74,4 +104,8 @@ function render(obj) {
   $('#screenshots').html(html);
 
   $('.description-text').html(obj.description);
+
+  var date = convertDate(obj.release_date);
+  $('.release-date').html(date['day'] + ' ' + date['month'] + ' ' + date['year'] + ' г.');
+  $('.release-notes').html(obj.release_notes);
 }
