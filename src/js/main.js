@@ -19,28 +19,67 @@ function urlEncode(obj) {
 }
 
 function performSearch() {
+  var search = $('#search-text').val();
+
+  if (isItunesLink(search)) {
+    performLookup();
+    return;
+  }
+
   var params = {
-    term: jQuery('#search-text').val(),
-    country: encodeURIComponent(jQuery('#search-country .selected').attr('data-value')),
+    term: $('#search-text').val(),
+    country: encodeURIComponent($('#search-country .selected').attr('data-value')),
     entity: 'software',
     limit: 1,
     callback: 'handleTunesSearchResults'
   };
-
-
   
   var params = urlEncode(params);
-  console.log(params);
-  // var url = 'http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/wa/wsSearch?' + params;
   var url = 'https://itunes.apple.com/search?' + params;
-  console.log(url);
   var html = '<script src="' + url + '"><\/script>';
   jQuery('head').append(html);
+
+  console.log('In performSearch');
+}
+
+function performLookup() {
+
+  var link = $('#search-text').val();
+  var startPoint = link.indexOf('/id');
+  var endPoint = link.indexOf('?');
+  var id = '';
+
+  for (var i = startPoint + 3; i < endPoint; i++) {
+    id += link[i];
+  }
+
+  var params = {
+    id: id,
+    country: encodeURIComponent($('#search-country .selected').attr('data-value')),
+    entity: 'software',
+    limit: 1,
+    callback: 'handleTunesSearchResults'
+  }
+
+  var params = urlEncode(params);
+  var url = 'https://itunes.apple.com/lookup?' + params;
+  var html = '<script src="' + url + '"><\/script>';
+  jQuery('head').append(html);
+  console.log('in lookup');
+}
+
+function isItunesLink(string) {
+  if (string.indexOf('itunes.apple.com') + 1) {
+    return true;
+  }
+
+  return false;
 }
 
 function handleTunesSearchResults(arg) {
   var results = arg.results;
-  console.log(results);
+  console.log('In handle');
+
   for (var i = 0; i < results.length; i++) {
     var item = results[i];
     var obj = {
@@ -55,7 +94,10 @@ function handleTunesSearchResults(arg) {
       genre: item.primaryGenreName,
       description: item.description,
       release_date: item.currentVersionReleaseDate,
-      release_notes: item.releaseNotes
+      release_notes: item.releaseNotes,
+      version: item.version,
+      size: item.fileSizeBytes,
+      minimum_version: item.minimumOsVersion
     };
 
     results[i] = obj;
@@ -91,10 +133,24 @@ function convertDate(string) {
   return date;
 }
 
+function checkPrice(string) {
+  if (string.match(/[0-9]/)) {
+    return true;
+  }
+  return false;
+}
+
+function bytesToSize(bytes) {
+   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+   if (bytes == 0) return '0 Byte';
+   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+};
+
 function render(obj) {
   var html = '';
   $('.app-name h2').html(obj.track_name);
-  $('.age-limit').html(obj.content_advisory_rating);
+  $('.age-limit, #limitations').html(obj.content_advisory_rating);
   $('.author').html(obj.artist_name + '<i class="angle right icon"></i>');
   $('#artwork').attr('src', obj.artwork);
 
@@ -106,6 +162,20 @@ function render(obj) {
   $('.description-text').html(obj.description);
 
   var date = convertDate(obj.release_date);
-  $('.release-date').html(date['day'] + ' ' + date['month'] + ' ' + date['year'] + ' г.');
+  $('.release-date, #release-date').html(date['day'] + ' ' + date['month'] + ' ' + date['year'] + ' г.');
   $('.release-notes').html(obj.release_notes);
+
+  if (checkPrice(obj.price)) {
+    $('.download').html(obj.price);
+  } else {
+    $('.download').html('Загрузить');
+  }
+
+  // Info
+  $('#developer').html(obj.artist_name);
+  $('#category').html(obj.genre);
+  $('#version').html(obj.version);
+  $('#size').html(bytesToSize(obj.size));
+
+  $('#compatibility').html('Требуется iOS ' + obj.minimum_version + ' или более поздняя версия.')
 }

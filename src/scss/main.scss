@@ -75,10 +75,10 @@ body {
 
   .download {
     margin-top: 2px;
+    padding: 0 10px;
     border: 1px solid #2f85ff;
     border-radius: 3px;
     color: #2f85ff;
-    width: 33.3333%;
     height: 23px;
     float: right;
     text-align: center;
@@ -137,7 +137,7 @@ body {
 }
 
 p.section-header {
-  font-size: 1.1em;
+  font-size: 1.2em;
   font-weight: 400;
   margin-top: 10px;
   margin-bottom: 0px;
@@ -180,8 +180,34 @@ p.section-header {
   color: #a9a9a9;
 }
 
+.info-title {
+  width: 40%;
+  float: left;
+  text-align: right;
+  margin-top: 3px;
+  
+  p {
+    font-size: 1em;
+    color: #a9a9a9;
+    font-weight: lighter;
+  }
+}
 
+.info {
+  margin: 5px 0;
+}
 
+.info-text {
+  width: 56%;
+  float: right;
+  text-align: left;
+  margin-top: 3px;
+}
+
+.link {
+  margin-top: 5px;
+  cursor: pointer;
+}
 
 
 
