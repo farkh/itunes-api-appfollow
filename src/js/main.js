@@ -102,7 +102,7 @@ function handleSearchRes(arg) {
 
   var obj = {
     source: 0,
-    track_name: results[0].trackCensoredName,
+    track_name: results[0].trackName,
     artist_name: results[0].artistName,
     artwork: results[0].artworkUrl512,
     content_advisory_rating: results[0].contentAdvisoryRating,
