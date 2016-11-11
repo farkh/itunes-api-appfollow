@@ -1,5 +1,24 @@
 //= ../../bower_components/jquery/dist/jquery.js
 
+$(function() {
+  $('#search-button, #search-country .menu').on('click', function() {
+    showPhone();
+  });
+});
+
+$(function() {
+  $('#search-text').on('focusout', function() {
+    showPhone();
+  });
+});
+
+function showPhone() {
+  if ($('#search-text').val() != '') {
+    $('.toggler').show();
+    performChoose();
+  }
+}
+
 function urlEncode(obj) {
   var s = '';
   for (var key in obj) {
@@ -10,7 +29,6 @@ function urlEncode(obj) {
     s = s.substr(0, s.length - 1);
   }
 
-  // replace '%2520' with '+' (spaces)
   for (var i = 0; i < s.length; i++) {
     s = s.replace('%2520', '+');
   }
@@ -18,32 +36,36 @@ function urlEncode(obj) {
   return s;
 }
 
-function performSearch() {
+function performChoose() {
   var search = $('#search-text').val();
 
   if (isItunesLink(search)) {
     performLookup();
-    return;
+  } else {
+    performSearch();
   }
+}
 
+function performSearch() {
+  var country = 'us';
+  if (encodeURIComponent($('#search-country .selected').attr('data-value')) != 'undefined') {
+    country = encodeURIComponent($('#search-country .selected').attr('data-value'));
+  }
   var params = {
     term: $('#search-text').val(),
-    country: encodeURIComponent($('#search-country .selected').attr('data-value')),
+    country: country,
     entity: 'software',
     limit: 1,
-    callback: 'handleTunesSearchResults'
+    callback: 'handleSearchRes'
   };
   
   var params = urlEncode(params);
   var url = 'https://itunes.apple.com/search?' + params;
   var html = '<script src="' + url + '"><\/script>';
   jQuery('head').append(html);
-
-  console.log('In performSearch');
 }
 
 function performLookup() {
-
   var link = $('#search-text').val();
   var startPoint = link.indexOf('/id');
   var endPoint = link.indexOf('?');
@@ -58,14 +80,13 @@ function performLookup() {
     country: encodeURIComponent($('#search-country .selected').attr('data-value')),
     entity: 'software',
     limit: 1,
-    callback: 'handleTunesSearchResults'
+    callback: 'handleSearchRes'
   }
 
   var params = urlEncode(params);
   var url = 'https://itunes.apple.com/lookup?' + params;
   var html = '<script src="' + url + '"><\/script>';
   jQuery('head').append(html);
-  console.log('in lookup');
 }
 
 function isItunesLink(string) {
@@ -76,32 +97,28 @@ function isItunesLink(string) {
   return false;
 }
 
-function handleTunesSearchResults(arg) {
+function handleSearchRes(arg) {
   var results = arg.results;
-  console.log('In handle');
 
-  for (var i = 0; i < results.length; i++) {
-    var item = results[i];
-    var obj = {
-      source: 0,
-      track_name: item.trackCensoredName,
-      artist_name: item.artistName,
-      artwork: item.artworkUrl512,
-      content_advisory_rating: item.contentAdvisoryRating,
-      artist_url: item.artistViewUrl,
-      price: item.formattedPrice,
-      screenshots: item.screenshotUrls,
-      genre: item.primaryGenreName,
-      description: item.description,
-      release_date: item.currentVersionReleaseDate,
-      release_notes: item.releaseNotes,
-      version: item.version,
-      size: item.fileSizeBytes,
-      minimum_version: item.minimumOsVersion
-    };
-
-    results[i] = obj;
-  }
+  var obj = {
+    source: 0,
+    track_name: results[0].trackCensoredName,
+    artist_name: results[0].artistName,
+    artwork: results[0].artworkUrl512,
+    content_advisory_rating: results[0].contentAdvisoryRating,
+    artist_url: results[0].artistViewUrl,
+    price: results[0].formattedPrice,
+    screenshots: results[0].screenshotUrls,
+    genre: results[0].primaryGenreName,
+    description: results[0].description,
+    release_date: results[0].currentVersionReleaseDate,
+    release_notes: results[0].releaseNotes,
+    version: results[0].version,
+    size: results[0].fileSizeBytes,
+    minimum_version: results[0].minimumOsVersion,
+    rating: results[0].averageUserRating,
+    rating_count: results[0].userRatingCount
+  };
 
   render(obj);
 }
@@ -137,6 +154,7 @@ function checkPrice(string) {
   if (string.match(/[0-9]/)) {
     return true;
   }
+
   return false;
 }
 
@@ -145,6 +163,20 @@ function bytesToSize(bytes) {
    if (bytes == 0) return '0 Byte';
    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+};
+
+var ratings = {
+  '0': 'rating-0',
+  '0.5': 'rating-5',
+  '1': 'rating-10',
+  '1.5': 'rating-15',
+  '2': 'rating-20',
+  '2.5': 'rating-25',
+  '3': 'rating-30',
+  '3.5': 'rating-35',
+  '4': 'rating-40',
+  '4.5': 'rating-45',
+  '5': 'rating-50'
 };
 
 function render(obj) {
@@ -178,4 +210,12 @@ function render(obj) {
   $('#size').html(bytesToSize(obj.size));
 
   $('#compatibility').html('Требуется iOS ' + obj.minimum_version + ' или более поздняя версия.')
+  
+  if (obj.rating_count != undefined) {
+    $('.rating').css('display', 'block');
+    $('.rating-count').html('(' + obj.rating_count + ')');
+    $('.rating-stars').html('<span id="rating-static" class="' + ratings[obj.rating] + '"></span>');
+  } else {
+    $('.rating').css('display', 'none');
+  }
 }

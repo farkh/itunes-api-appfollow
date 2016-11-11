@@ -38,7 +38,7 @@
               //= template/country-dropdown.html
 
               <div class="ui two wide column">
-                <div class="ui primary button search-button" onclick="performSearch();">Search</div>
+                <div class="ui primary button search-button" id="search-button">Search</div>
               </div>
             </div>
           </div>
@@ -71,8 +71,13 @@
                         <div class="age-limit"></div>
                         <p class="author"></p>
                       </div>
-                      
-                      <a class="download free">Загрузить</a>
+                      <div class="app-rating">
+                        <div class="rating">
+                          <div class="rating-stars"></div>
+                          <p class="rating-count"></p>
+                        </div>
+                        <a class="download">Загрузить</a>
+                      </div>
                     </div>
                     
                     <div class="selectors">
@@ -83,7 +88,7 @@
                   </div>
                 </div>
                   
-                <div class="line"></div>
+                <div class="ui divider"></div>
 
                 <div class="wrapper">
                 
@@ -91,7 +96,7 @@
                   <div id="screenshots"></div>
                 </div>
                 
-                <div class="line"></div>
+                <div class="ui divider"></div>
 
                 <div class="wrapper">
                   
@@ -101,7 +106,7 @@
                   </div>
                 </div>
 
-                <div class="line"></div>
+                <div class="ui divider"></div>
 
                 <div class="wrapper">
                   
@@ -112,7 +117,7 @@
                   </div>
                 </div>
 
-                <div class="line"></div>
+                <div class="ui divider"></div>
 
                 <div class="wrapper">
                   
@@ -168,8 +173,6 @@
             </div>
           </div>
         </div>
-
-
       </div>
 
       <div class="ui bottom attached tab segment" data-tab="google-play">
@@ -179,10 +182,8 @@
       <div class="ui bottom attached tab segment" data-tab="windows-store">
         Coming soon.
       </div>
-
     </div>
   </div>
-  <!-- /.page-content -->
   
   <!-- Semantic UI - JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
